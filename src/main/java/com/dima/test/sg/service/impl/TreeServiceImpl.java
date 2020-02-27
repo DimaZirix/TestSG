@@ -23,7 +23,29 @@ public class TreeServiceImpl implements TreeService {
         this.treeRepository = treeRepository;
     }
 
+    @Transactional
+    public TreeEntity getOrCreate(final String name) {
+        TreeEntity entity = treeRepository.findOneByName(name);
+        if (entity != null) {
+            return entity;
+        }
 
+        entity = new TreeEntity(name);
+        treeRepository.save(entity);
+
+        return entity;
+    }
+
+    @Transactional
+    public long addChild(final String parentName, final String childName) {
+        final TreeEntity parentEntity = getOrCreate(parentName);
+        final TreeEntity childEntity = getOrCreate(parentName);
+
+        parentEntity.getChildList().add(childEntity);
+        treeRepository.save(parentEntity);
+
+        return 0;
+    }
 
     @Transactional(readOnly = true)
     public Tree getTree(final long id) {
