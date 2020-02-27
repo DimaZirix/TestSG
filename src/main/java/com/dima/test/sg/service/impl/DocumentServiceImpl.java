@@ -23,19 +23,26 @@ public class DocumentServiceImpl implements DocumentService {
         this.documentRepository = documentRepository;
     }
 
+    @Override
     @Transactional
-    public DocumentEntity getOrCreate(final String name) {
-        DocumentEntity entity = documentRepository.findOneByName(name);
-        if (entity != null) {
-            return entity;
+    public Long getId(final String name) {
+        final DocumentEntity entity = documentRepository.findOneByName(name);
+        if (entity == null) {
+            return null;
         }
 
-        entity = new DocumentEntity(name);
-        documentRepository.save(entity);
-
-        return entity;
+        return entity.getId();
     }
 
+    @Override
+    @Transactional
+    public long add(final String name) {
+        final DocumentEntity entity = getOrCreate(name);
+
+        return entity.getId();
+    }
+
+    @Override
     @Transactional
     public long addChild(final String parentName, final String childName) {
         final DocumentEntity parentEntity = getOrCreate(parentName);
@@ -47,8 +54,9 @@ public class DocumentServiceImpl implements DocumentService {
         return 0;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public Document getTree(final long id) {
+    public Document get(final long id) {
         final DocumentEntity entity = documentRepository.findById(id).orElse(null);
         if (entity == null) {
             return null;
@@ -73,5 +81,17 @@ public class DocumentServiceImpl implements DocumentService {
         document.getChildList().addAll(childList);
 
         return document;
+    }
+
+    private DocumentEntity getOrCreate(final String name) {
+        DocumentEntity entity = documentRepository.findOneByName(name);
+        if (entity != null) {
+            return entity;
+        }
+
+        entity = new DocumentEntity(name);
+        documentRepository.save(entity);
+
+        return entity;
     }
 }

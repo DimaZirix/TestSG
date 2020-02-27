@@ -37,7 +37,11 @@ public class ApiController {
     }
 
     @GetMapping("/add/")
-    public void add() {
+    public ResponseEntity<Long> add(@RequestParam final String name) {
+        final long id = documentService.add(name);
 
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(id);
     }
 }
