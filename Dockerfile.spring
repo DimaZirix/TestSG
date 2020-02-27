@@ -1,7 +1,8 @@
 FROM openjdk:13
 RUN adduser spring
 USER spring
-ARG JAR_FILE=./sg-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=./target/sg-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar","testsg.Application"]
 
