@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "tree", indexes = {
-    @Index(name = "idx_tree_name", columnList = "name")
+@Table(name = "document", indexes = {
+    @Index(name = "idx_document_name", columnList = "name")
 })
-public class TreeEntity {
+public class DocumentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,17 +17,17 @@ public class TreeEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<TreeEntity> childList;
+    private List<DocumentEntity> childList;
 
-    public TreeEntity() {
+    public DocumentEntity() {
 
     }
 
-    public TreeEntity(final String name) {
+    public DocumentEntity(final String name) {
         this.name = name;
     }
 
-    public TreeEntity(final String name, final List<TreeEntity> childList) {
+    public DocumentEntity(final String name, final List<DocumentEntity> childList) {
         this.name = name;
         this.childList = childList;
     }
@@ -44,7 +44,7 @@ public class TreeEntity {
         this.name = name;
     }
 
-    public List<TreeEntity> getChildList() {
+    public List<DocumentEntity> getChildList() {
         return childList;
     }
 }

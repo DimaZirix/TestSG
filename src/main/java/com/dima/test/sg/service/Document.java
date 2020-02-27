@@ -3,21 +3,21 @@ package com.dima.test.sg.service;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Tree {
+public final class Document {
 
     private final long id;
 
     private final String name;
 
-    private final List<Tree> childList;
+    private final List<Document> childList;
 
-    public Tree(final long id, final String name) {
+    public Document(final long id, final String name) {
         this.id = id;
         this.name = name;
         this.childList = new ArrayList<>();
     }
 
-    public Tree(final long id, final String name, final List<Tree> childList) {
+    public Document(final long id, final String name, final List<Document> childList) {
         this.id = id;
         this.name = name;
         this.childList = childList;
@@ -31,7 +31,7 @@ public final class Tree {
         return name;
     }
 
-    public List<Tree> getChildList() {
+    public List<Document> getChildList() {
         return childList;
     }
 
