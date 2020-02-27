@@ -1,0 +1,7 @@
+FROM openjdk:13
+RUN adduser spring
+USER spring
+ARG JAR_FILE=./sg-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar","testsg.Application"]
+
