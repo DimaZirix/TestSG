@@ -2,6 +2,7 @@ version: '3.3'
 
 services:
   db:
+    container_name: spring_postgres
     image: postgres:latest
     restart: always
     ports:
@@ -12,6 +13,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - database_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   spring_boot:
     depends_on:
@@ -24,7 +27,25 @@ services:
       - 8080:8080
     links:
       - db
+    networks:
+      - app-network
+
+  nginx:
+    depends_on:
+      - spring_boot
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    ports:
+      - 8000:8000
+    links:
+      - spring_boot
+    networks:
+      - app-network
 
 volumes:
   database_data: {}
 
+networks:
+  app-network:
+    driver: bridge
