@@ -36,22 +36,26 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public long add(final String name) {
-        final DocumentEntity entity = getOrCreate(name);
+    public Long create(final String name) {
+        DocumentEntity entity = documentRepository.findOneByName(name);
+        if (entity != null) {
+            return null;
+        }
+
+        entity = new DocumentEntity(name);
+        documentRepository.save(entity);
 
         return entity.getId();
     }
 
     @Override
     @Transactional
-    public long addChild(final String parentName, final String childName) {
+    public void addChild(final String parentName, final String childName) {
         final DocumentEntity parentEntity = getOrCreate(parentName);
         final DocumentEntity childEntity = getOrCreate(childName);
 
         parentEntity.getChildList().add(childEntity);
         documentRepository.save(parentEntity);
-
-        return 0;
     }
 
     @Override

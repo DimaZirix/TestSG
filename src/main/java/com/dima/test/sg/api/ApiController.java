@@ -36,12 +36,27 @@ public class ApiController {
             .body(document);
     }
 
-    @GetMapping("/add/")
-    public ResponseEntity<Long> add(@RequestParam final String name) {
-        final long id = documentService.add(name);
+    @GetMapping("/post/")
+    public ResponseEntity<Long> post(@RequestParam final String name) {
+        final Long id = documentService.create(name);
+
+        if (id == null) {
+            return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .build();
+        }
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_JSON)
             .body(id);
+    }
+
+    @GetMapping("/put/")
+    public ResponseEntity<Long> put(@RequestParam final String parent, @RequestParam final String child) {
+        documentService.addChild(parent, child);
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .build();
     }
 }

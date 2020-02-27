@@ -8,10 +8,10 @@ public interface DocumentService {
     Long getId(String name);
 
     @Transactional
-    long add(String name);
+    Long create(String name);
 
     @Transactional
-    long addChild(String parentName, String childName);
+    void addChild(String parentName, String childName);
 
     @Transactional(readOnly = true)
     Document get(long id);
