@@ -23,4 +23,33 @@ public class TreeServiceImpl implements TreeService {
         this.treeRepository = treeRepository;
     }
 
+
+
+    @Transactional(readOnly = true)
+    public Tree getTree(final long id) {
+        final TreeEntity entity = treeRepository.findById(id).orElse(null);
+        if (entity == null) {
+            return null;
+        }
+
+        return entityToTreeMapper(entity, new HashMap<>());
+    }
+
+    private Tree entityToTreeMapper(final TreeEntity entity, final Map<Long, Tree> treeMap) {
+        final Tree mappedTree = treeMap.get(entity.getId());
+        if (mappedTree != null) {
+            return mappedTree;
+        }
+
+        final Tree tree = new Tree(entity.getId(), entity.getName());
+        treeMap.put(tree.getId(), tree);
+
+        final List<Tree> childList = entity.getChildList().stream()
+            .map(p -> entityToTreeMapper(p, treeMap))
+            .collect(Collectors.toList());
+
+        tree.getChildList().addAll(childList);
+
+        return tree;
+    }
 }
