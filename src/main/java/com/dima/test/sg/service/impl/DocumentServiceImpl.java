@@ -69,6 +69,10 @@ public class DocumentServiceImpl implements DocumentService {
         return entityToTreeMapper(entity, new HashMap<>());
     }
 
+    /**
+     * treeMap используется для предотвращения бесконечной рекурсии
+     */
+
     private Document entityToTreeMapper(final DocumentEntity entity, final Map<Long, Document> treeMap) {
         final Document mappedDocument = treeMap.get(entity.getId());
         if (mappedDocument != null) {
