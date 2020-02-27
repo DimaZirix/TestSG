@@ -21,7 +21,7 @@ public class ApiController {
         this.documentService = documentService;
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping(value = "/get/{id}", produces = "application/json;charset=utf8")
     public ResponseEntity<Document> get(@PathVariable final long id) {
         final Document document = documentService.get(id);
 
@@ -32,7 +32,7 @@ public class ApiController {
         }
 
         return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_JSON)
+            .header("Content-Type", "application/json;charset=utf8")
             .body(document);
     }
 

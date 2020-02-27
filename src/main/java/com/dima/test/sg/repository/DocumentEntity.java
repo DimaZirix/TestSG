@@ -1,6 +1,7 @@
 package com.dima.test.sg.repository;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,7 @@ public class DocumentEntity {
 
     public DocumentEntity(final String name) {
         this.name = name;
+        this.childList = new ArrayList<>();
     }
 
     public DocumentEntity(final String name, final List<DocumentEntity> childList) {
