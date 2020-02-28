@@ -38,6 +38,7 @@ services:
       dockerfile: ./Dockerfile.nginx
     ports:
       - 8000:8000
+      - 4430:4430
     links:
       - spring_boot
     networks:
